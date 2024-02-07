@@ -15,27 +15,18 @@ jobs:
   # This workflow contains a single job called "build"
    bridgecrew:
     runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Run Bridgecrew 
-      id: Bridgecrew
-      uses: bridgecrewio/bridgecrew-action@master
-      with:
-        soft_fail: true
-      env:  
-        GITHUB_REPOSITORY: ${{ github.repository }}
-        GITHUB_REF: ${{ github.ref }}
-        GITHUB_SHA: ${{ github.sha }}
-        GITHUB_SERVER_URL: $GITHUB_SERVER_URL  
-    
-    - name: Expose report
-      uses: actions/upload-artifact@v2
-      with:
-        name: SARIF results
-        path: results.sarif
-    
-    # Uploads results.sarif to GitHub repository using the upload-sarif action
-    - uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: results.sarif
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      # Scan Iac with kics
+      - name: run kics Scan
+        uses: checkmarx/kics-github-action@v1.7.0
+        with:
+          # scanning two directories: ./terraform/ ./cfn-templates/ plus a single file
+          path: 'terraform,cfn-templates'
+          output_path: myResults/
+      # Display the results in json format
+      - name: display kics results
+        run: |
+          cat myResults/results.json
