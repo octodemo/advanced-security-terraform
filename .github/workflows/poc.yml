@@ -24,13 +24,12 @@ jobs:
         uses: checkmarx/kics-github-action@v1.7.0
         with:
           # scanning two directories: ./terraform/ ./cfn-templates/ plus a single file
-          path: 'terraform,cfn-templates'
-          output_path: kicksoutput/
+          path: 'terraform'
           enable_comments: true
       # Display the results in json format
       - name: display kics results
         run: |
-          cat kicksoutput/results.json
+          cat results.json
 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
