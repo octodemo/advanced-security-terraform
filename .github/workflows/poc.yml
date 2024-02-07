@@ -25,11 +25,12 @@ jobs:
         with:
           # scanning two directories: ./terraform/ ./cfn-templates/ plus a single file
           path: 'terraform,cfn-templates'
-          output_path: myResults/
+          output_path: kicksoutput/
+          enable_comments: true
       # Display the results in json format
       - name: display kics results
         run: |
-          cat myResults/results.json
+          cat kicksoutput/results.json
 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
