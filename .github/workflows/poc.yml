@@ -24,7 +24,7 @@ jobs:
         uses: checkmarx/kics-github-action@v1.7.0
         with:
           # scanning two directories: ./terraform/ ./cfn-templates/ plus a single file
-          path: 'terraform,.github'
+          path: 'terraform'
           enable_comments: true
       # Display the results in json format
       - name: display kics results
@@ -34,6 +34,6 @@ jobs:
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
         with:
-        # This will add both a CLI output to the console and create a results.sarif file
+          directory: 'terraform'
           output_format: cli
           output_file_path: console
